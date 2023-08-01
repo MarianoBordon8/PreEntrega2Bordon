@@ -4,7 +4,15 @@ function productosDisponibles(productos){
     for (let i = 3; i < (cantidadProductos + 3); i++) {
         let id = i + 1
         let nombre = prompt("Ingrese el nombre del producto " + (i + 1) + ':');
+        while (nombre === null || nombre === ''){
+            console.log("Valor incorrecto, vuelva a ingresarlo")
+            nombre = prompt("Ingrese el nombre del producto " + (i + 1) + ':')
+        }
         let precio = parseInt(prompt("Ingrese el precio del producto " + (i + 1) + ':'));
+        while (isNaN(precio)){
+            console.log("Valor incorrecto, vuelva a ingresarlo")
+            precio = parseInt(prompt("Ingrese el precio del producto " + (i + 1) + ':'));
+        }
         let nuevoProducto = {
             id: id,
             nombre: nombre,
@@ -55,7 +63,29 @@ function eliminarDeCarrito(carrito){
         console.log("ID invalido");
     }
 }
-
+//opcion6
+function comprar(carrito, productos){
+    console.log("acabas de comprar: ")
+    for (const producto of carrito){
+        console.log("ID: " + producto.id + "- Nombre: " + producto.nombre + "- Precio: $" + producto.precio + "\n")
+    }
+    let total = 0
+    for (const i of carrito){
+        total += i.precio
+        let idABorrar = i.id
+        let borrar = productos.findIndex(producto => producto.id === idABorrar);
+        productos.splice(borrar,1)
+    }
+    console.log("por $" + total)
+    console.log("MUCHAS GRACIAS")
+}
+//opcion7
+function vaciarCarrito(carrito){
+    const resultado = confirm("¿Seguro de que deseas vaciar el carrito?");
+    if (resultado){
+        carrito.splice(0,(carrito.length))
+    }
+}
 
 
 
@@ -67,13 +97,15 @@ let opcion = 0;
 
 while (opcion !== -1) {
     opcion = parseInt(prompt(
-        'Menú de opciones:\n' +
+        "Menú de opciones:\n" +
         "1. Agregar productos disponibles para comprar\n" +
-        '2. Mostrar Stock\n' +
-        '3. Agregar a Carrito\n' +
-        '4. Mostrar Carrito\n' +
-        '5. Eliminar de Carrito\n' +
-        '6. Salir'
+        "2. Mostrar Stock\n" +
+        "3. Agregar a Carrito\n" +
+        "4. Mostrar Carrito\n" +
+        "5. Eliminar de Carrito\n" +
+        "6. Comprar\n" +
+        "7. Vaciar Carrito\n" +
+        "8. Salir"
     ));
 
     switch (opcion) {
@@ -93,6 +125,12 @@ while (opcion !== -1) {
             eliminarDeCarrito(carrito)
             break;
         case 6:
+            comprar(carrito, productos)
+            break;
+        case 7:
+            vaciarCarrito(carrito)
+            break;
+        case 8:
             console.log('Saliendo del menú...');
             opcion = -1
             break; // Sale del bucle y finaliza el programa
