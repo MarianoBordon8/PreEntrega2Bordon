@@ -128,6 +128,7 @@ while (opcion !== -1) {
             break;
         case 6:
             comprar(carrito, productos);
+            opcion = -1
             break;
         case 7:
             vaciarCarrito(carrito);
